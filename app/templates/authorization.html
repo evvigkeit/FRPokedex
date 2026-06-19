@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+
+{% block title %}Login{% endblock title %}
+    
+{% block styles %}<link rel="stylesheet" href="/static/login style.css">{% endblock styles %}
+    
+{% block content %}
+    <main class="main">
+    <div class="form">
+        <h1>Login</h1>
+
+    <form id="user_data" action="/authorized" method="post">   
+        <input type="text" class="user_data_form_el" placeholder="Username" name="username">
+        <input type="password" class="user_data_form_el" placeholder="Password" name="password">
+    </form>
+    <button id="submit" type="submit" form="user_data">Let's start!</button>
+    <div class="reg">
+        <label for="to_reg">New to HobbyTracker?</label>
+        <a href="registration">Register!</a>
+    </div>
+    </div>
+    </main>
+{% endblock content %}
+    

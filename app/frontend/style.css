@@ -6,6 +6,7 @@
 body{
     font-family: "Rubik", sans-serif;
 }
+
 .main {
     display: flex;
     justify-content: center;
@@ -15,6 +16,7 @@ body{
     background-color: #b5ffde;   
     
 }
+
 h1 {
     display: flex;
     justify-content: center;
@@ -24,4 +26,40 @@ h1 {
     margin: 20px 20px 30px;
 
     color: #007060; 
+}
+
+.form {
+    border-radius: 20px;
+    width: 400px;
+    height: 322px;
+    top: 123px;
+    background-color: #CCCCFF;
+    justify-content: center;
+    align-items: center;
+}
+
+.user_data_form_el {
+    justify-content:center;
+    align-items: center;
+    font-weight: 500;
+    font-size: 20px;
+    margin: 5px 80px;
+    border-radius: 10px;
+    color: #007060; 
+    border-width: medium;
+    border-color: #007060;
+}
+
+#submit {
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    background: #007060;
+    border: 1px solid #007060;
+    border-radius: 50px;
+    padding: 8px;
+    margin: 13px 144px;
+    font-weight: 700;
+    font-size: 18px;
+    color: white;
 }

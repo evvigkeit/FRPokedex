@@ -13,7 +13,6 @@ app = FastAPI()
 
 '''
 "Mounting" means adding a complete "independent" application in a specific path, that then takes care of handling all the sub-paths.
-
 We need it here to process CSS files which are connected to the main HTML file.
 '''
 app.mount("/static", StaticFiles(directory="app/frontend"), name="static")
@@ -21,6 +20,11 @@ app.mount("/static", StaticFiles(directory="app/frontend"), name="static")
 @app.get("/login")
 def login_page():
     return FileResponse("app/frontend/authorization.html")  # requesting the data from the source
+
+@app.get("/registration")
+def registration_page():
+    return FileResponse("app/frontend/registration.html")  # requesting the data from the source
+
 
 @app.post("/authorized")
 def login(request: Request, username: str = Form(), password: str = Form()):

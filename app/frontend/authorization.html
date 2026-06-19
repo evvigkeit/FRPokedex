@@ -18,14 +18,14 @@
     <div class="form">
         <h1>Login</h1>
 
-    <form id="user_data" action="/authorized" method="post">   <!--action -- link to the server to which we send a request-->
-        <input type="text" id="user" placeholder="Username" name="username">
-        <input type="password" id="pass" placeholder="Password" name="password">
+    <form id="user_data" action="/authorized" method="post">   
+        <input type="text" class="user_data_form_el" placeholder="Username" name="username">
+        <input type="password" class="user_data_form_el" placeholder="Password" name="password">
     </form>
     <button id="submit" type="submit" form="user_data">Let's start!</button>
     <div class="reg">
         <label for="to_reg">New to HobbyTracker?</label>
-        <a href="#">Register!</a>
+        <a href="registration">Register!</a>
     </div>
     </div>
     </main>

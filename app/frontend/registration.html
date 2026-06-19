@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/registration style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <main class="main">
+    <div class="form">
+        <h1>Registration</h1>
+
+    <form id="registration_form" action="/authorized" method="post">   <!--action -- link to the server to which we send a request-->
+        <input type="text" class="user_data_form_el" placeholder="Username" name="username">    <!--id - to style, name - to submit the form, placeholder - visible to user-->
+        <input type="email" class="user_data_form_el" placeholder="Email" name="email">
+        <input type="phone" class="user_data_form_el" placeholder="Phone" name="phone">    
+        <input type="password" class="user_data_form_el" placeholder="Password" name="password">
+        <input type="password" class="user_data_form_el" placeholder="Confirm password" name="password">
+    </form>
+    <button id="submit" type="submit" form="registration_form">Let's start!</button>
+    </div>
+    </main>
+</body>
+</html>

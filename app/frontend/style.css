@@ -1,0 +1,27 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    font-family: "Rubik", sans-serif;
+}
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    background-color: #b5ffde;   
+    
+}
+h1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    font-size: 40px;
+    margin: 20px 20px 30px;
+
+    color: #007060; 
+}

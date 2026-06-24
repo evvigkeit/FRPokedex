@@ -14,14 +14,17 @@
         <input type="password" class="user_data_form_el" placeholder="Password" name="password">
     </form>
     
-    {% if password_err %}
-        <p style="color: red; margin: 5px 80px;">Oops! Wrong password!</p>
+    {% if password_err == 1 %}
+        <p style="color: red; margin: 0px 80px;">Oops, wrong password!</p>
+    {% elif password_err == 2 %}
+        <p style="color: red; margin: 0px 80px;">Oops, that user doesn't exist!</p>
     {% endif %}
         
     <button id="submit" type="submit" form="user_data">Let's start!</button>
+
     <div class="reg">
-        <label for="to_reg">New to HobbyTracker?</label>
-        <a href="registration">Register!</a>
+        <p style="display: inline-block" for="to_reg">New to HobbyTracker?</p>
+        <a href="registration">Sign up!</a>
     </div>
     </div>
     </main>

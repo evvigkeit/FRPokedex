@@ -3,5 +3,16 @@
 }
 
 #submit {
-    margin: 30px 144px;
+    margin: 10px 144px;
+}
+
+.reg {
+    display: block;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    font-size: 22px;
+    margin: 10px 20px 10px;
+
+    color: #007060; 
 }

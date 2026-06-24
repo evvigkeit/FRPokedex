@@ -1,5 +1,7 @@
 CREATE TABLE IF NOT EXISTS user_data (
 	user_id SERIAL PRIMARY KEY,
-	username VARCHAR(50) UNIQUE NOT NULL,
-	user_password VARCHAR(50) UNIQUE NOT NULL
+	user_name VARCHAR(50) UNIQUE NOT NULL,
+	user_email VARCHAR(50) UNIQUE NOT NULL,
+	user_phone VARCHAR(13) UNIQUE NOT NULL,
+	user_password VARCHAR(50) NOT NULL
 );

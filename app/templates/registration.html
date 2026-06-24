@@ -7,16 +7,34 @@
 {% block content %}
     <main class="main">
     <div class="form">
-        <h1>Registration</h1>
+        <h1>Create an Account</h1>
 
-    <form id="registration_form" action="/authorized" method="post">   <!--action -- link to the server to which we send a request-->
+    <form id="registration_form" method="post">   <!--action -- link to the server to which we send a request-->
         <input type="text" class="user_data_form_el" placeholder="Username" name="username">    <!--id - to style, name - to submit the form, placeholder - visible to user-->
         <input type="email" class="user_data_form_el" placeholder="Email" name="email">
         <input type="phone" class="user_data_form_el" placeholder="Phone" name="phone">    
         <input type="password" class="user_data_form_el" placeholder="Password" name="password">
-        <input type="password" class="user_data_form_el" placeholder="Confirm password" name="password">
+        <input type="password" class="user_data_form_el" placeholder="Confirm password" name="ch_password">
     </form>
+
+    {% if registration_err == "username" %}
+        <p style="color: red; margin: 0px 60px 0px 60px;">Oops, that username is already taken!</p>
+    {% elif registration_err == "email" %}
+        <p style="color: red; margin: 0px 60px 0px 60px;">A user with that email already exists!</p>
+    {% elif registration_err == "phone" %}
+        <p style="color: red; margin: 0px 60px 0px 60px;">A user with that phone already exists!</p>
+    {% elif registration_err == "password" %}
+        <p style="color: red; margin: 0px 60px 0px 60px;">The passwords don't match! Let's try again!</p>
+    {% else %}
+        <p></p>
+    {% endif %}
+
     <button id="submit" type="submit" form="registration_form">Let's start!</button>
+    
+    <div class="reg">
+        <p style="display: inline-block" for="to_reg">Already Have an Account?</p>
+        <a href="authorization">Log in!</a>
+    </div>
     </div>
     </main>
 {% endblock content %}

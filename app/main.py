@@ -24,7 +24,7 @@ def login_page(request: Request):
 def login(request: Request, username: str = Form(), password: str = Form()):
     user = db.check_user_exist(username, password)
     if user:
-        if user[1] != password:
+        if user['password'] != password:
             return templates.TemplateResponse("authorization.html",{"request": request, "password_err": 1})  # 1 - wrong password, 2 - user not exists
         return RedirectResponse(f"/authorized/{username}", status_code=303)
     else:

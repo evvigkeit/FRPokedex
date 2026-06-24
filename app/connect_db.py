@@ -13,12 +13,12 @@ print(("this shiii failed :(", 'ok!')[bool(conn)])
 cursor = conn.cursor()
 
 def check_user_exist(login, email = 'null', phone = 'null'):
-    cursor.execute(f"""SELECT user_name, user_email, user_phone, user_password 
+    cursor.execute(f"""SELECT user_name, user_email, user_phone, user_password, user_created 
                        FROM user_data 
                        WHERE user_name='{login}' OR user_email='{email}' OR user_phone='{phone}'""")
     user = cursor.fetchone()
     if user:
-        return {"username": user[0], "email": user[1], "phone": user[2], "password": user[3]}
+        return {"username": user[0], "email": user[1], "phone": user[2], "password": user[3], "created": user[4]}
     return None
 
 def create_user(login, email, phone, password):

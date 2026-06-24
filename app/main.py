@@ -5,6 +5,8 @@ from fastapi.templating import Jinja2Templates
 
 import connect_db as db
 
+from datetime import datetime, timedelta
+
 
 templates = Jinja2Templates(directory="app/templates")
 
@@ -48,6 +50,11 @@ def login(request: Request, username: str = Form(), email: str = Form(), phone: 
     db.create_user(username, email, phone, password)
     return RedirectResponse(f"/profile/{username}", status_code=303)
 
+
+
 @app.get("/profile/{username}")
 def profile_page(request: Request, username: str):
-    return templates.TemplateResponse("profile.html", {"request": request, "username": username})
+    user = db.check_user_exist(username)
+    return templates.TemplateResponse("profile.html", 
+                                      {"request": request, 
+                                       "username": username, "email": user["email"], "phone": user["phone"], "created": (datetime.now() - user["created"]).days})

@@ -7,5 +7,14 @@
 {% block content %}
     <main class="main">
         <h1>Hi, {{username}}!</h1>
+
+        <h3>---Account Info---</h3>
+        <div id=account>
+            <p>Email: <b style="color: #007060">{{email}}</b></p>
+            <p>Phone: <b style="color: #007060">{{phone}}</b></p>
+            <p>The FRPokidex user for: <b style="color: #007060">{{created}}</b> days!</p>
+        </div>
+        <h3>---Pokidex---</h3>
+        <h3>---Main Team---</h3>
     </main>
 {% endblock content %}

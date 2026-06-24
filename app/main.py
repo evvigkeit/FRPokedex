@@ -26,7 +26,7 @@ def login(request: Request, username: str = Form(), password: str = Form()):
     if user:
         if user['password'] != password:
             return templates.TemplateResponse("authorization/authorization.html",{"request": request, "password_err": 1})  # 1 - wrong password, 2 - user not exists
-        return RedirectResponse(f"/authorized/{username}", status_code=303)
+        return RedirectResponse(f"/profile/{username}", status_code=303)
     else:
         return templates.TemplateResponse("authorization/authorization.html",{"request": request, "password_err": 2})
 
@@ -46,8 +46,8 @@ def login(request: Request, username: str = Form(), email: str = Form(), phone: 
     if password != ch_password:
         return templates.TemplateResponse("authorization/registration.html",{"request": request, "registration_err": "password"})
     db.create_user(username, email, phone, password)
-    return RedirectResponse(f"/authorized/{username}", status_code=303)
+    return RedirectResponse(f"/profile/{username}", status_code=303)
 
-@app.get("/authorized/{username}")
-def authorized_page(request: Request, username: str):
-    return templates.TemplateResponse("authorized.html", {"request": request, "username": username})
+@app.get("/profile/{username}")
+def profile_page(request: Request, username: str):
+    return templates.TemplateResponse("profile.html", {"request": request, "username": username})

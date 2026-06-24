@@ -1,7 +1,22 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    font-family: "Rubik", sans-serif;
+}
+
+.main {
+    width: 100%;
+    height: 100vh;
+    background-color: #d2d2f9;    
+}
+
 h1 {
     font-weight: 700;
     font-size: 36px;
-    margin: 20px 20px 30px;
+    padding: 20px 20px 30px;
 
     color: #007060; 
 }

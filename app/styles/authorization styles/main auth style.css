@@ -16,7 +16,7 @@ body{
     background-color: #b5ffde;    
 }
 
-#h1_reg {
+h1 {
     display: flex;
     justify-content: center;
     align-items: center;

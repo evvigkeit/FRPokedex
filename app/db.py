@@ -1,6 +1,7 @@
 import psycopg2
 import os
 from dotenv import load_dotenv
+from app.models.user import User
 
 load_dotenv()  # get secret data from .env
 
@@ -12,22 +13,26 @@ print(("this shiii failed :(", 'ok!')[bool(conn)])
 
 cursor = conn.cursor()
 
-def check_user_exist(login, email = 'null', phone = 'null'):
-    cursor.execute(f"""SELECT user_name, user_email, user_phone, user_password, user_created 
+def check_user_exist(user: User):
+    cursor.execute("""SELECT user_name, user_email, user_phone, user_created, user_password 
                        FROM user_data 
-                       WHERE user_name=%s OR user_email=%s OR user_phone=%s""", (login, email, phone))
-    user = cursor.fetchone()
-    if user:
-        return {"username": user[0], "email": user[1], "phone": user[2], "password": user[3], "created": user[4]}
+                       WHERE user_name=%s OR user_email=%s OR user_phone=%s""", (user.username, user.email, user.phone))
+    user_from_db = cursor.fetchone()
+    if user_from_db:
+        return User(*user_from_db)
     return None
 
-def create_user(login, email, phone, password):
-    user_exist = check_user_exist(login, email, phone)
-    if not user_exist:
-        cursor.execute(f"INSERT INTO user_data (user_name, user_email, user_phone, user_password) VALUES (%s, %s, %s, %s)", (login, email, phone, password))
-        conn.commit()
-        print('User data hass been added successfuly!')
-        return None
-    return user_exist
+def get_user_data(username: str): # TEMPORARY LOGIC TILL I ADD SESSIONS 
+    cursor.execute("SELECT user_name, user_email, user_phone, user_created FROM user_data WHERE user_name=%s", (username,))
+    user_from_db = cursor.fetchone()
+    if user_from_db:
+        return User(*user_from_db)
+    return None
+
+def create_user(new_user: User):
+    cursor.execute("""INSERT INTO user_data (user_name, user_email, user_phone, user_password) 
+                   VALUES (%s, %s, %s, %s)""", (new_user.username, new_user.email, new_user.phone, new_user.password))
+    conn.commit()
+    print('User data has been added successfuly!')
 
 

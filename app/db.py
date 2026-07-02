@@ -30,6 +30,7 @@ def get_user_data(username: str): # TEMPORARY LOGIC TILL I ADD SESSIONS
     return None
 
 def create_user(new_user: User):
+    print(new_user)
     cursor.execute("""INSERT INTO user_data (user_name, user_email, user_phone, user_password) 
                    VALUES (%s, %s, %s, %s)""", (new_user.username, new_user.email, new_user.phone, new_user.password))
     conn.commit()

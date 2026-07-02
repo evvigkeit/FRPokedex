@@ -5,9 +5,8 @@ from fastapi.templating import Jinja2Templates
 
 from app import db
 from app.models.user import User
+from app.models.pydantic_models import AuthForm, RegForm
 import app.utils.auth_util as auth_util
-
-from datetime import datetime
 
 
 templates = Jinja2Templates(directory="app/templates")
@@ -18,19 +17,22 @@ app = FastAPI()
 "Mounting" means adding a complete "independent" application in a specific path, that then takes care of handling all the sub-paths.
 We need it here to process CSS files which are connected to the main HTML file.
 '''
-app.mount("/static", StaticFiles(directory="app/styles"), name="static")
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 @app.get("/authorization")
 def login_get(request: Request):
     return templates.TemplateResponse("authorization/authorization.html",{"request": request})
 
+
 @app.post("/authorization")
-def login_post(request: Request, username: str = Form(), password: str = Form()):
-    auth_err = auth_util.validate_auth(User(username=username, password=password))
+def login_post(request: Request, auth_user: AuthForm):
+    result = auth_util.validate_auth(User(username=auth_user.username, password=auth_user.password))
+    return result
+    
     
     if auth_err:
         return templates.TemplateResponse("authorization/authorization.html",{"request": request, "password_err": auth_err})  # 1 - wrong password, 2 - user not exists
-    return RedirectResponse(f"/profile/{username}", status_code=303)
+    return RedirectResponse(f"/profile/{auth_user.username}", status_code=303)
 
 
 @app.get("/registration")
@@ -38,18 +40,17 @@ def reg_get(request: Request):
     return templates.TemplateResponse("authorization/registration.html", {"request": request})
 
 @app.post("/registration")
-def reg_post(request: Request, username: str = Form(), email: str = Form(), phone: str = Form(), password: str = Form(), ch_password: str = Form()):
-    new_user = User(username=username, password=password, email=email, phone=phone)
-    reg_err = auth_util.validate_reg(new_user)
-    
+def reg_post(request: Request, reg_user: RegForm):
+    new_user = User(username=reg_user.username, password=reg_user.password, email=reg_user.email, phone=reg_user.phone)
+
+    reg_err = auth_util.validate_reg(new_user)  
     if reg_err:
         return templates.TemplateResponse("authorization/registration.html",{"request": request, "registration_err": reg_err})
 
-    if password != ch_password:
+    if reg_user.password != reg_user.ch_password:
         return templates.TemplateResponse("authorization/registration.html",{"request": request, "registration_err": "password"})
     db.create_user(new_user)
-    return RedirectResponse(f"/profile/{username}", status_code=303)
-
+    return RedirectResponse(f"/profile/{new_user.username}", status_code=303)
 
 
 @app.get("/profile/{username}")

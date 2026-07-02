@@ -2,14 +2,14 @@
 
 {% block title %}Registration{% endblock title %}
     
-{% block styles %}<link rel="stylesheet" href="/static/authorization styles/registration style.css">{% endblock styles %}
+{% block styles %}<link rel="stylesheet" href="/static/css/authorization styles/registration style.css">{% endblock styles %}
     
 {% block content %}
     <main class="main">
     <div class="form">
         <h1>Create an Account</h1>
 
-    <form id="registration_form" method="post">   <!--action -- link to the server to which we send a request-->
+    <form id="reg_form" method="post">   <!--action -- link to the server to which we send a request-->
         <input type="text" class="user_data_form_el" placeholder="Username" name="username">    <!--id - to style, name - to submit the form, placeholder - visible to user-->
         <input type="email" class="user_data_form_el" placeholder="Email" name="email">
         <input type="phone" class="user_data_form_el" placeholder="Phone" name="phone">    
@@ -29,7 +29,7 @@
         <p></p>
     {% endif %}
 
-    <button id="submit" type="submit" form="registration_form">Let's start!</button>
+    <button id="submit" type="submit" form="reg_form">Let's start!</button>
     
     <div class="reg">
         <p style="display: inline-block" for="to_reg">Already Have an Account?</p>
@@ -37,4 +37,5 @@
     </div>
     </div>
     </main>
+    <script src="/static/js/convert_JSON.js"></script>
 {% endblock content %}

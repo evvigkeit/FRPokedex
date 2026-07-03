@@ -25,14 +25,9 @@ def login_get(request: Request):
 
 
 @app.post("/authorization")
-def login_post(request: Request, auth_user: AuthForm):
-    result = auth_util.validate_auth(User(username=auth_user.username, password=auth_user.password))
-    return result
-    
-    
-    if auth_err:
-        return templates.TemplateResponse("authorization/authorization.html",{"request": request, "password_err": auth_err})  # 1 - wrong password, 2 - user not exists
-    return RedirectResponse(f"/profile/{auth_user.username}", status_code=303)
+def login_post(auth_user: AuthForm):
+    auth_result = auth_util.validate_auth(User(username=auth_user.username, password=auth_user.password))
+    return auth_result
 
 
 @app.get("/registration")
@@ -40,17 +35,10 @@ def reg_get(request: Request):
     return templates.TemplateResponse("authorization/registration.html", {"request": request})
 
 @app.post("/registration")
-def reg_post(request: Request, reg_user: RegForm):
+def reg_post(reg_user: RegForm):
     new_user = User(username=reg_user.username, password=reg_user.password, email=reg_user.email, phone=reg_user.phone)
-
-    reg_err = auth_util.validate_reg(new_user)  
-    if reg_err:
-        return templates.TemplateResponse("authorization/registration.html",{"request": request, "registration_err": reg_err})
-
-    if reg_user.password != reg_user.ch_password:
-        return templates.TemplateResponse("authorization/registration.html",{"request": request, "registration_err": "password"})
-    db.create_user(new_user)
-    return RedirectResponse(f"/profile/{new_user.username}", status_code=303)
+    reg_result = auth_util.validate_reg(new_user, reg_user.ch_password)  
+    return reg_result
 
 
 @app.get("/profile/{username}")

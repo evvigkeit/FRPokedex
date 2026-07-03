@@ -1,5 +1,4 @@
-document.getElementById('auth_form').addEventListener('submit', submitForm);
-//document.getElementById('reg_form').addEventListener('submit', submitForm);
+document.querySelector("form").addEventListener("submit", submitForm); // call the function using the first css-selector "form" found as an argument
 
 
 async function submitForm(event) {
@@ -12,6 +11,7 @@ async function submitForm(event) {
     let obj = {};
     formData.forEach((value, key) => {
         obj[key] = value;
+        console.log(key, value)
     });
 
     // Constructing the server request
@@ -23,11 +23,13 @@ async function submitForm(event) {
         }
     });
 
+    console.log(request)
     let response = await fetch(request);
     let data = await response.json();
 
     if (data.success) {
-        window.location.href = `/profile/${data.username}`;
+        console.log(obj)
+        window.location.href = `/profile/${obj.username}`;
     } 
     else {
         // change a content of the element with id = error_message

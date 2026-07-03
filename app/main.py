@@ -38,6 +38,7 @@ def reg_get(request: Request):
 def reg_post(reg_user: RegForm):
     new_user = User(username=reg_user.username, password=reg_user.password, email=reg_user.email, phone=reg_user.phone)
     reg_result = auth_util.validate_reg(new_user, reg_user.ch_password)  
+    db.create_user(new_user)
     return reg_result
 
 

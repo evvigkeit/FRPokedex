@@ -12,7 +12,7 @@
     <form id="reg_form" action="/registration" method="post">   <!--action -- link to the server to which we send a request-->
         <input type="text" class="user_data_form_el" placeholder="Username" name="username">    <!--id - to style, name - to submit the form, placeholder - visible to user-->
         <input type="email" class="user_data_form_el" placeholder="Email" name="email">
-        <input type="phone" class="user_data_form_el" placeholder="Phone" name="phone">    
+        <input type="phone" id="phone" class="user_data_form_el" placeholder="Phone" name="phone">    
         <input type="password" class="user_data_form_el" placeholder="Password" name="password">
         <input type="password" class="user_data_form_el" placeholder="Confirm password" name="ch_password">
     </form>
@@ -27,5 +27,4 @@
     </div>
     </div>
     </main>
-    <script src="/static/js/convert_JSON.js"></script>
 {% endblock content %}

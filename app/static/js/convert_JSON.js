@@ -10,8 +10,9 @@ async function submitForm(event) {
     // Gathering form data into an object
     let obj = {};
     formData.forEach((value, key) => {
+        if (key == "username") {value = value.toLowerCase()}
+
         obj[key] = value;
-        console.log(key, value)
     });
 
     // Constructing the server request
@@ -25,6 +26,13 @@ async function submitForm(event) {
 
     console.log(request)
     let response = await fetch(request);
+
+    // Log the response if an error occurs
+    if (!response.ok) {
+    console.log(await response.text());
+    return;
+}
+
     let data = await response.json();
 
     if (data.success) {

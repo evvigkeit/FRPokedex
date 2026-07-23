@@ -8,7 +8,6 @@ from app import db
 from app.models.user import User
 from app.models.pydantic_models import AuthForm, RegForm, ApiResponse
 import app.utils.auth_util as auth_util
-import json
 
 
 templates = Jinja2Templates(directory="app/templates")
@@ -39,8 +38,8 @@ def reg_get(request: Request):
 @app.post("/registration")
 def reg_post(reg_user: RegForm):
     new_user = User(username=reg_user.username, password=reg_user.password, email=reg_user.email, phone=reg_user.phone)
-    reg_result = auth_util.validate_reg(new_user, reg_user.ch_password)  
-    if reg_result["success"]:
+    reg_result = auth_util.validate_reg(new_user)  
+    if reg_result.success:
         db.create_user(new_user)
     return reg_result
 
@@ -53,7 +52,7 @@ def profile_get(request: Request, username: str):
 
 @app.exception_handler(RequestValidationError)
 def validation_exception_handler(request: Request, exc: RequestValidationError):
-    err_ans = ApiResponse(success=False, error=exc.errors()[0]["msg"].replace('Value error, ', ''))
+    err_ans = ApiResponse(success=False, error=exc.errors()[0]["msg"])
     return JSONResponse(
         status_code=422,
         content=err_ans.model_dump()

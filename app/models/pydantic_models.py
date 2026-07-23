@@ -43,8 +43,6 @@ class RegForm(BaseModel):
             else:
                 raise ValueError("Password can contain only digits, latin letters and special symbols!")
             
-        print(ord("A"), ord("Z"), ord("a"), ord("z"))
-            
         for value in error_dict.values():
             if value[1] == 0:
                 raise ValueError(value[0])
@@ -57,4 +55,9 @@ class RegForm(BaseModel):
         if self.password != self.ch_password:
             raise ValueError("The passwords don't match!")
         return self
-        
+    
+
+class ApiResponse(BaseModel):
+    success : bool = True
+    error: str | None = None
+    

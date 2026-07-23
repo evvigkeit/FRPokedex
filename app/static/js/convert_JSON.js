@@ -6,7 +6,6 @@ async function submitForm(event) {
     event.preventDefault(); // Decline the browser's default form submission behavior
 
     let formData = new FormData(event.target); // event.target — HTML element <form>
-
     // Gathering form data into an object
     let obj = {};
     formData.forEach((value, key) => {
@@ -28,10 +27,8 @@ async function submitForm(event) {
     let response = await fetch(request);
 
     // Log the response if an error occurs
-    if (!response.ok) {
-    console.log(await response.text());
-    return;
-}
+    //if (!response.ok) {
+        //console.log(await response.text());}
 
     let data = await response.json();
 

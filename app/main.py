@@ -1,12 +1,14 @@
-from fastapi import FastAPI, Form, Request
-from fastapi.responses import RedirectResponse
+from fastapi import FastAPI, Request
+from fastapi.exceptions import RequestValidationError
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from fastapi.responses import JSONResponse
 
 from app import db
 from app.models.user import User
-from app.models.pydantic_models import AuthForm, RegForm
+from app.models.pydantic_models import AuthForm, RegForm, ApiResponse
 import app.utils.auth_util as auth_util
+import json
 
 
 templates = Jinja2Templates(directory="app/templates")
@@ -47,3 +49,12 @@ def reg_post(reg_user: RegForm):
 def profile_get(request: Request, username: str):
     user = db.get_user_data(username)
     return templates.TemplateResponse("profile.html", {"request": request, "username": user.username, "email": user.email, "phone": user.phone, "created": user.days_with_us})
+
+
+@app.exception_handler(RequestValidationError)
+def validation_exception_handler(request: Request, exc: RequestValidationError):
+    err_ans = ApiResponse(success=False, error=exc.errors()[0]["msg"].replace('Value error, ', ''))
+    return JSONResponse(
+        status_code=422,
+        content=err_ans.model_dump()
+    )

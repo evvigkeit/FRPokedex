@@ -18,6 +18,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
 </head>
 <body>
+    <header>
+        <nav class="menu">
+            <ul class="menu__ul">
+                <li class="menu__li"><a class="menu__link" href="#">Main</a></li>
+                <li class="menu__li"><a class="menu__link" href="#">Pokemons</a></li>
+                <li class="menu__li"><a class="menu__link" href="#">Profile</a></li>
+            </ul>
+            <p style="margin:0px" class="menu__logo">FRPOKEDEX</p>
+            <a id="menu__signout" href="../authorization">Sign Out</a>
+        </nav>
+    </header>
+
     {% block content %} 
     {% endblock content %}
 </body>

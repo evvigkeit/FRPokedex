@@ -26,10 +26,6 @@ async function submitForm(event) {
     console.log(request)
     let response = await fetch(request);
 
-    // Log the response if an error occurs
-    //if (!response.ok) {
-        //console.log(await response.text());}
-
     let data = await response.json();
 
     if (data.success) {

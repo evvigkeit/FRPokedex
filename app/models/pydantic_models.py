@@ -4,6 +4,8 @@ from pydantic_core import PydanticCustomError
 from app.utils.errors import RegError
 import re
 
+from fastapi.exceptions import RequestValidationError
+
 class AuthForm(BaseModel):
     username: str
     password: str
@@ -15,6 +17,20 @@ class RegForm(BaseModel):
     phone: str = Field(min_length=11, max_length=20)
     password: str = Field(min_length=8)
     ch_password: str
+    
+    # TEMPORARY SOLUTION
+    @staticmethod
+    def change_user_answer(exc: RequestValidationError):
+        print(exc)
+        if exc['type'] == 'string_too_short':
+            exc['msg'] = f"{exc['loc'][1].capitalize()} should have at least {exc['ctx']['min_length']} characters!"
+        
+        elif exc['type'] == 'string_too_long':
+                    exc['msg'] = f"{exc['loc'][1].capitalize()} should have at most {exc['ctx']['max_length']} characters!"
+        
+        elif exc['type'] == 'string_pattern_mismatch':
+            exc['msg'] = f"Incorrect {exc['loc'][1]} format!"
+        return exc
     
     @field_validator('phone')
     @classmethod

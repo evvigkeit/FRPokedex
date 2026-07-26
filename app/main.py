@@ -44,6 +44,11 @@ def reg_post(reg_user: RegForm):
     return reg_result
 
 
+@app.get("/pokemons")
+def login_get(request: Request):
+    return templates.TemplateResponse("pokemons.html",{"request": request})
+
+
 @app.get("/profile/{username}")
 def profile_get(request: Request, username: str):
     user = db.get_user_data(username)
@@ -52,7 +57,8 @@ def profile_get(request: Request, username: str):
 
 @app.exception_handler(RequestValidationError)
 def validation_exception_handler(request: Request, exc: RequestValidationError):
-    err_ans = ApiResponse(success=False, error=exc.errors()[0]["msg"])
+    exc = RegForm.change_user_answer(exc.errors()[0])
+    err_ans = ApiResponse(success=False, error=exc['msg'])
     return JSONResponse(
         status_code=422,
         content=err_ans.model_dump()

@@ -16,14 +16,14 @@ cursor = conn.cursor()
 def check_user_exist(user: User):
     cursor.execute("""SELECT user_name, user_email, user_phone, user_created, user_password 
                        FROM user_data 
-                       WHERE user_name=%s OR user_email=%s OR user_phone=%s""", (user.username, user.email, user.phone))
+                       WHERE user_name=%s OR user_email=%s OR user_phone=%s;""", (user.username, user.email, user.phone))
     user_from_db = cursor.fetchone()
     if user_from_db:
         return User(*user_from_db)
     return None
 
 def get_user_data(username: str): # TEMPORARY LOGIC TILL I ADD SESSIONS 
-    cursor.execute("SELECT user_name, user_email, user_phone, user_created FROM user_data WHERE user_name=%s", (username,))
+    cursor.execute("SELECT user_name, user_email, user_phone, user_created FROM user_data WHERE user_name=%s;", (username,))
     user_from_db = cursor.fetchone()
     if user_from_db:
         return User(*user_from_db)
@@ -32,8 +32,14 @@ def get_user_data(username: str): # TEMPORARY LOGIC TILL I ADD SESSIONS
 def create_user(new_user: User):
     print(new_user)
     cursor.execute("""INSERT INTO user_data (user_name, user_email, user_phone, user_password) 
-                   VALUES (%s, %s, %s, %s)""", (new_user.username, new_user.email, new_user.phone, new_user.password))
+                   VALUES (%s, %s, %s, %s);""", (new_user.username, new_user.email, new_user.phone, new_user.password))
     conn.commit()
     print('User data has been added successfuly!')
+    
+    
+def get_pokemons(limit: str = '10') -> list:
+    cursor.execute("SELECT pokemon_name, file_name FROM pokemon_cards LIMIT %s;", (limit,))
+    pokemons = cursor.fetchall()
+    return pokemons
 
 

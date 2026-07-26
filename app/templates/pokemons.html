@@ -1,0 +1,21 @@
+{% extends 'authorized layout.html' %}
+
+{% block title %}Profile{% endblock title %}
+    
+{% block styles %}<link rel="stylesheet" href="/static/css/pokemon page style.css">{% endblock styles %}
+
+{% block content %}
+    <main class="main">
+        <h1>Pokemons</h1>
+
+        <h3>---All---</h3>
+        <div id=container>
+            {% for pokemon, pic in pokemons %}
+                <div id=pokemon_card>
+                    <img id=pokemon_pic src="/static/pics/{{pic}}">
+                    <p id=pokemon_name>{{pokemon}}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+{% endblock content %}

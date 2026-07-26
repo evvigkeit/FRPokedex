@@ -46,7 +46,8 @@ def reg_post(reg_user: RegForm):
 
 @app.get("/pokemons")
 def login_get(request: Request):
-    return templates.TemplateResponse("pokemons.html",{"request": request})
+    pokemons = db.get_pokemons()
+    return templates.TemplateResponse("pokemons.html",{"request": request, "pokemons": pokemons})
 
 
 @app.get("/profile/{username}")

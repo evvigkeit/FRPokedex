@@ -2,6 +2,7 @@ import psycopg2
 import os
 from dotenv import load_dotenv
 from app.models.user import User
+from app.models.pokemon import Pokemon
 
 load_dotenv()  # get secret data from .env
 
@@ -38,8 +39,13 @@ def create_user(new_user: User):
     
     
 def get_pokemons(limit: str = '10') -> list:
-    cursor.execute("SELECT pokemon_name, file_name FROM pokemon_cards LIMIT %s;", (limit,))
+    cursor.execute("SELECT pokemon_name, file_name FROM pokemon_basic_info LIMIT %s;", (limit,))
     pokemons = cursor.fetchall()
     return pokemons
+
+def get_pokemon_info(pokemon_name: str) -> list:
+    cursor.execute("SELECT * FROM pokemon_basic_info WHERE pokemon_name = %s;", (pokemon_name,))
+    pokemon_info = cursor.fetchall()
+    return Pokemon(*pokemon_info[0])
 
 

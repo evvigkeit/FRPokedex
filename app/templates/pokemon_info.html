@@ -1,0 +1,26 @@
+{% extends 'authorized layout.html' %}
+
+{% block title %}Profile{% endblock title %}
+    
+{% block styles %}
+
+    <link rel="stylesheet" href="/static/css/pokemon_info style.css">
+{% endblock styles %}
+
+{% block content %}
+    <main class="main">
+        <h1>{{pokemon_info.name}}</h1>
+        <div id=container>
+            <div id=pokemon_card><img id=pokemon_pic src="/static/pics/{{pokemon_info.pic}}"></div>
+            <div id=description_and_info>
+                <p id=description style="font:30px;">{{pokemon_info.description}}</p>
+                <div id=info>
+                    <p id=p_info>Height:<br><b>{{pokemon_info.height}}</b></p>
+                    <p id=p_info>Weight:<br><b>{{pokemon_info.weight}}</b></p>
+                    <p id=p_info>Category:<br><b>{{pokemon_info.category}}</b></p>
+                    <p id=p_info>Gender:<br><b>{{pokemon_info.gender}}</b></p>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock content %}

@@ -11,3 +11,8 @@ pokemon = APIRouter()
 def login_get(request: Request):
     pokemons = db.get_pokemons()
     return templates.TemplateResponse("pokemons.html",{"request": request, "pokemons": pokemons})
+
+@pokemon.get("/pokemons/{pokemon_name}")
+def login_get(request: Request, pokemon_name):
+    pokemon_info = db.get_pokemon_info(pokemon_name)
+    return templates.TemplateResponse("pokemon_info.html",{"request": request, "pokemon_info": pokemon_info})

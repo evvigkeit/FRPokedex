@@ -1,0 +1,44 @@
+h1{
+    margin: 0px 60px;
+}
+#container{
+    display: flex;
+}
+#pokemon_pic {
+    height: 400px;
+    width: auto;
+}
+#pokemon_card {
+    display: flex;
+    justify-self: start;
+    height: 420px;
+    width: auto;
+    border-style: solid;
+    border-color: #000070;
+    flex-wrap: wrap;
+    margin: 10px 60px;
+    background-color: #eaeaff;
+}
+#description{
+    font: 20pt sans-serif;
+    padding: 0px 0px 50px;
+    color: #000070;
+}
+#info {
+    display: flex;
+    align-content: center;
+    justify-content: space-around;
+    padding: 10px;
+    width: 30%;
+    height: 30%;
+    border-style: solid;
+    border-color: #000070;
+    flex-wrap: wrap;
+    margin: 10px 60px;
+    background-color:#efeff2;
+    font: 15pt sans-serif;
+}
+#p_info {
+    margin: 10px 30px 10px 30px;
+}
+

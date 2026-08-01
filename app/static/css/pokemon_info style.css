@@ -1,6 +1,9 @@
-h1{
-    margin: 0px 60px;
+h1 {
+      padding: 30px 60px 30px;
+      font: 35pt sans-serif; 
+      font-weight: 900;
 }
+
 #container{
     display: flex;
 }
@@ -41,4 +44,10 @@ h1{
 #p_info {
     margin: 10px 30px 10px 30px;
 }
+#return {
+    font: 25pt sans-serif; 
+    font-weight: 900; 
+    color: #000070; 
+}
+
 

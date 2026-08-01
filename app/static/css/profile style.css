@@ -9,11 +9,13 @@ body{
     width: 100%;
     height: 100vh;
     background-color: #d2d2f9;    
+    position: relative;
+    top: 64px;
 }
 h1 {
     font-weight: 700;
     font-size: 36px;
-    padding: 120px 20px 30px;
+    padding: 80px 20px 30px;
 
     color: #007060; 
 }
@@ -27,6 +29,7 @@ p {
 }
 
 header{
+    top: 0px;
     width: 100%;
     box-sizing: border-box;
     background-color:#007060;

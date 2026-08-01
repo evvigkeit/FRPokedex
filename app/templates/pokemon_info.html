@@ -9,6 +9,7 @@
 
 {% block content %}
     <main class="main">
+        <a style="text-decoration: none; display: inline;" href="../pokemons"><p id=return>← <span style="font: 15pt sans-serif; font-weight: 300;">Back to Pokemons</span></p></a>
         <h1>{{pokemon_info.name}}</h1>
         <div id=container>
             <div id=pokemon_card><img id=pokemon_pic src="/static/pics/{{pokemon_info.pic}}"></div>

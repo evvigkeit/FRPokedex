@@ -49,3 +49,11 @@ def get_pokemon_info(pokemon_name: str) -> list:
     return Pokemon(*pokemon_info[0])
 
 
+def get_pokemon_types(pokemon: Pokemon) -> list:
+    cursor.execute("""SELECT type_name FROM pokemon_types
+                        JOIN all_types ON pokemon_types.type_id = all_types.type_id
+                        JOIN pokemon_basic_info ON pokemon_basic_info.pokemon_id = pokemon_types.pokemon_id
+                        WHERE pokemon_name = %s""", (pokemon.name,))
+    pokemon_types = cursor.fetchall()
+    pokemon.types = list(map(lambda x: x[0], pokemon_types))
+    return pokemon

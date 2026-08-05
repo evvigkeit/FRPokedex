@@ -22,9 +22,13 @@ h1 {
     margin: 10px 60px;
     background-color: #eaeaff;
 }
+#description_and_info {
+    margin: 10px 60px;
+}
 #description{
     font: 20pt sans-serif;
     padding: 0px 0px 50px;
+    margin: 0px;
     color: #000070;
 }
 #info {
@@ -37,7 +41,7 @@ h1 {
     border-style: solid;
     border-color: #000070;
     flex-wrap: wrap;
-    margin: 10px 60px;
+    margin: 10px 0px;
     background-color:#efeff2;
     font: 15pt sans-serif;
 }
@@ -49,5 +53,18 @@ h1 {
     font-weight: 900; 
     color: #000070; 
 }
-
-
+#type {
+    font: 18pt sans-serif;
+    margin: 0px;
+}
+#type_box {
+    font: 15pt sans-serif;
+    width: 100px;
+    margin: 5px 20px 20px 0px;
+    justify-items: center;
+}
+#type_info {
+    color: #000000;
+    margin: 0px;
+    padding: 5px 10px;
+}

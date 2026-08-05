@@ -13,8 +13,19 @@
         <h1>{{pokemon_info.name}}</h1>
         <div id=container>
             <div id=pokemon_card><img id=pokemon_pic src="/static/pics/{{pokemon_info.pic}}"></div>
+
             <div id=description_and_info>
                 <p id=description style="font:30px;">{{pokemon_info.description}}</p>
+
+                <p id=type>Type:</p>
+                <div id=activities style="display: flex;">
+                    {% for type, div_color in pokemon_info.types_div.items() %}
+                         <div id=type_box style="background-color: {{div_color}}">
+                            <p id=type_info>{{type}}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+                    
                 <div id=info>
                     <p id=p_info>Height:<br><b>{{pokemon_info.height}}</b></p>
                     <p id=p_info>Weight:<br><b>{{pokemon_info.weight}}</b></p>

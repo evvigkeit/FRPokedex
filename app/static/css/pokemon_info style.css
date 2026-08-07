@@ -36,8 +36,8 @@ h1 {
     align-content: center;
     justify-content: space-around;
     padding: 10px;
-    width: 30%;
-    height: 30%;
+    width: 20vw;
+    height: auto;
     border-style: solid;
     border-color: #000070;
     flex-wrap: wrap;

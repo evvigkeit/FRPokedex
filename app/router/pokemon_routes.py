@@ -14,6 +14,5 @@ def login_get(request: Request):
 
 @pokemon.get("/pokemons/{pokemon_name}")
 def login_get(request: Request, pokemon_name):
-    pokemon = db.get_pokemon_info(pokemon_name)
-    pokemon_info = db.get_pokemon_types(pokemon)
+    pokemon_info = db.get_pokemon_weaknesses(db.get_pokemon_info(pokemon_name))
     return templates.TemplateResponse("pokemon_info.html",{"request": request, "pokemon_info": pokemon_info})

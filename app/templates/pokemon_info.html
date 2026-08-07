@@ -19,9 +19,18 @@
 
                 <p id=type>Type:</p>
                 <div id=activities style="display: flex;">
-                    {% for type, div_color in pokemon_info.types_div.items() %}
-                         <div id=type_box style="background-color: {{div_color}}">
+                    {% for type in pokemon_info.types %}
+                         <div id=type_box style="background-color: {{pokemon_info.property_color(type)}}">
                             <p id=type_info>{{type}}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <p id=type>Weeknesses:</p>
+                <div id=activities style="display: flex;">
+                    {% for type, mult in pokemon_info.weaknesses.items() %}
+                        <div id=type_box style="background-color: {{pokemon_info.property_color(type)}}">
+                            <p id=type_info>{{type}} x{{mult}}</p>
                         </div>
                     {% endfor %}
                 </div>

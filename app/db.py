@@ -1,5 +1,6 @@
 import psycopg2
 import os
+import math
 from dotenv import load_dotenv
 from app.models.user import User
 from app.models.pokemon import Pokemon
@@ -55,5 +56,28 @@ def get_pokemon_types(pokemon: Pokemon) -> list:
                         JOIN pokemon_basic_info ON pokemon_basic_info.pokemon_id = pokemon_types.pokemon_id
                         WHERE pokemon_name = %s""", (pokemon.name,))
     pokemon_types = cursor.fetchall()
-    pokemon.types = list(map(lambda x: x[0], pokemon_types))
+    pokemon.types = tuple(map(lambda x: x[0], pokemon_types))
+    return pokemon
+
+def get_pokemon_weaknesses(pokemon: Pokemon) -> list:
+    if not pokemon.types:
+        pokemon = get_pokemon_types(pokemon)
+    
+    cursor.execute("""WITH Spec_weaknesses AS (
+	                        SELECT defender_type, attacker_type, multiplier  FROM type_weaknesses
+	                        WHERE defender_type IN (SELECT type_id FROM all_types WHERE type_name IN %s)
+	                        )
+                    SELECT type_name, ARRAY_AGG(multiplier)
+                    FROM Spec_weaknesses
+                    JOIN all_types ON Spec_weaknesses.attacker_type = all_types.type_id
+                    GROUP BY type_name""", (pokemon.types,))
+    pokemon_weaknesses = cursor.fetchall()
+    result = dict()
+    print(pokemon_weaknesses)
+    for type, mult_list in pokemon_weaknesses:
+        mult = math.prod(mult_list)
+        if mult >= 2:
+            result[type] = int(mult)
+    print(result)
+    pokemon.weaknesses = result
     return pokemon

@@ -8,8 +8,8 @@ pokemon = APIRouter()
 
 
 @pokemon.get("/pokemons")
-def login_get(request: Request):
-    pokemons = db.get_pokemons()
+def login_get(request: Request, pokemon_name: str = '', limit: str | None = None):
+    pokemons = db.get_pokemons(pokemon_name)
     return templates.TemplateResponse("pokemons.html",{"request": request, "pokemons": pokemons})
 
 @pokemon.get("/pokemons/{pokemon_name}")

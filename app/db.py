@@ -39,8 +39,9 @@ def create_user(new_user: User):
     print('User data has been added successfuly!')
     
     
-def get_pokemons(limit: str = '10') -> list:
-    cursor.execute("SELECT pokemon_name, file_name FROM pokemon_basic_info LIMIT %s;", (limit,))
+def get_pokemons(pokemon_name: str, limit: str = '10') -> list:
+    cursor.execute("""SELECT pokemon_name, file_name FROM pokemon_basic_info
+                        WHERE pokemon_name ILIKE %s LIMIT %s;""", ('%' + pokemon_name + '%', limit))
     pokemons = cursor.fetchall()
     return pokemons
 

@@ -1,6 +1,6 @@
 {% extends 'authorized layout.html' %}
 
-{% block title %}Profile{% endblock title %}
+{% block title %}Pokemons{% endblock title %}
     
 {% block styles %}<link rel="stylesheet" href="/static/css/pokemon page style.css">{% endblock styles %}
 
@@ -8,7 +8,14 @@
     <main class="main">
         <h1>Pokemons</h1>
 
-        <h3>---All---</h3>
+        <div id=search_bar>
+            <h3>---All---</h3>
+            <form id=search_form>
+            <input id=search_field type="text" placeholder="Pokemon" name="pokemon_name">
+            <input id=search_btn type="submit" value="🔍">
+            </form>
+        </div>
+
         <div id=container>
             {% for pokemon, pic in pokemons %}
                 <div id=pokemon_card>

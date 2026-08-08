@@ -1,3 +1,31 @@
+#search_bar{
+    display: flex;
+    padding: 0px 0px 30px;
+}
+h3{
+    padding: 15px;
+    font-size: 20px;
+}
+#search_form {
+    justify-content: center;
+    align-content: center;
+}
+#search_field {
+    justify-self:center;
+    align-self: center;
+    height: 25px;
+    width: 130px;
+    font-weight: 500;
+    font-size: 15px;
+    border-radius: 10px;
+    color: #007060; 
+    border-width: medium;
+    border-color: #007060;
+}
+#search_btn {
+    height: 28px;
+    width: 28px;
+}
 #pokemon_pic {
     height: 150px;
     width: auto;

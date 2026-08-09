@@ -9,10 +9,20 @@
         <h1>Pokemons</h1>
 
         <div id=search_bar>
-            <h3>---All---</h3>
+            <form>
+                <label for="select_list" style="color: #000070">Search by type: </label>
+                <select class="search_utils" id="select_list" name="pokemon_types" multiple size="1">
+                    {% for type in ["Normal", "Fighting", "Poison", "Ground", "Flying", "Bug", "Rock", "Ghost", "Steel", "Fire", "Water", "Grass", "Ice", "Electric", "Psychic", "Dragon", "Dark"] %}
+                        <option value={{type}}>{{type}}</option>
+                    {% endfor %}
+                </select>
+                
+                <input id=search_btn type="submit" value="🔍">
+            </form>
+
             <form id=search_form>
-            <input id=search_field type="text" placeholder="Pokemon" name="pokemon_name">
-            <input id=search_btn type="submit" value="🔍">
+                <input class="search_utils" id=search_field type="text" placeholder="Pokemon" name="pokemon_name">
+                <input id=search_btn type="submit" value="🔍">
             </form>
         </div>
 

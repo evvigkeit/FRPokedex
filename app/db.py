@@ -39,10 +39,20 @@ def create_user(new_user: User):
     print('User data has been added successfuly!')
     
     
-def get_pokemons(pokemon_name: str, limit: str = '10') -> list:
-    cursor.execute("""SELECT pokemon_name, file_name FROM pokemon_basic_info
-                        WHERE pokemon_name ILIKE %s LIMIT %s;""", ('%' + pokemon_name + '%', limit))
+def get_pokemons(pokemon_name: str) -> list:
+    cursor.execute("SELECT pokemon_name, file_name FROM pokemon_basic_info WHERE pokemon_name ILIKE %s;", ('%' + pokemon_name + '%',))
     pokemons = cursor.fetchall()
+    return pokemons
+
+def get_pokemon_by_type(pokemon_types: list) -> list:
+    cursor.execute("""SELECT pokemon_name, file_name, COUNT(*) FROM pokemon_types 
+                        JOIN all_types ON pokemon_types.type_id = all_types.type_id
+                        JOIN pokemon_basic_info ON pokemon_basic_info.pokemon_id = pokemon_types.pokemon_id
+                        WHERE type_name IN %s
+                        GROUP BY pokemon_name, file_name
+                        HAVING COUNT(*) = %s""", (tuple(pokemon_types), len(pokemon_types)))
+    pokemons = cursor.fetchall()
+    pokemons = list(map(lambda x: x[:-1], pokemons))
     return pokemons
 
 def get_pokemon_info(pokemon_name: str) -> list:
@@ -74,11 +84,9 @@ def get_pokemon_weaknesses(pokemon: Pokemon) -> list:
                     GROUP BY type_name""", (pokemon.types,))
     pokemon_weaknesses = cursor.fetchall()
     result = dict()
-    print(pokemon_weaknesses)
     for type, mult_list in pokemon_weaknesses:
         mult = math.prod(mult_list)
         if mult >= 2:
             result[type] = int(mult)
-    print(result)
     pokemon.weaknesses = result
     return pokemon

@@ -1,14 +1,10 @@
+import re
 from pydantic import BaseModel, Field, field_validator, model_validator
 from pydantic_core import PydanticCustomError
 
-from app.utils.errors import RegError
-import re
-
 from fastapi.exceptions import RequestValidationError
 
-class AuthForm(BaseModel):
-    username: str
-    password: str
+from app.utils.errors import RegError
     
     
 class RegForm(BaseModel):
@@ -80,3 +76,10 @@ class ApiResponse(BaseModel):
     success : bool = True
     error: str | None = None
     
+
+class Token(BaseModel):
+    access_token: str 
+    token_type: str
+    
+class TokenData(BaseModel):
+    username: str | None = None

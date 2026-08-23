@@ -5,6 +5,9 @@ from dotenv import load_dotenv
 from app.models.user import User
 from app.models.pokemon import Pokemon
 
+from app.utils.security_util import get_password_hash
+
+
 load_dotenv()  # get secret data from .env
 
 DB_USER = os.getenv("DB_USER")
@@ -33,8 +36,9 @@ def get_user_data(username: str): # TEMPORARY LOGIC TILL I ADD SESSIONS
 
 def create_user(new_user: User):
     print(new_user)
+    hashed_password = get_password_hash(new_user.password)
     cursor.execute("""INSERT INTO user_data (user_name, user_email, user_phone, user_password) 
-                   VALUES (%s, %s, %s, %s);""", (new_user.username, new_user.email, new_user.phone, new_user.password))
+                   VALUES (%s, %s, %s, %s);""", (new_user.username, new_user.email, new_user.phone, hashed_password))
     conn.commit()
     print('User data has been added successfuly!')
     

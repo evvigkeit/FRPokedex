@@ -1,13 +1,28 @@
-from fastapi import APIRouter, Request
+from typing import Annotated
+
+from fastapi import APIRouter, Request, Depends
+from fastapi.security import OAuth2PasswordRequestForm
 
 from app import db
 from app.models.user import User
-from app.models.pydantic_models import AuthForm, RegForm
-import app.utils.auth_util as auth_util
+from app.models.pydantic_models import RegForm, Token
+from app.utils import auth_util, security_util
 from app.core.templates import templates
 
 
 auth = APIRouter()
+
+
+@auth.post("/token")
+def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]) -> Token:
+    curr_user = User(username=form_data.username, password=form_data.password)
+    auth_result = auth_util.validate_auth(curr_user)
+    if not auth_result.success:
+        return auth_result
+    
+    access_token = security_util.create_access_token(data={"sub": curr_user.username}, expires_delta=security_util.access_token_expires())
+    return Token(access_token=access_token, token_type="bearer")
+
 
 @auth.get("/authorization")
 def login_get(request: Request):
@@ -15,9 +30,8 @@ def login_get(request: Request):
 
 
 @auth.post("/authorization")
-def login_post(auth_user: AuthForm):
-    auth_result = auth_util.validate_auth(User(username=auth_user.username, password=auth_user.password))
-    return auth_result
+def login_post(current_user: Annotated[User, Depends(security_util.get_current_user)]):
+    return current_user
 
 
 @auth.get("/registration")

@@ -8,6 +8,7 @@ class User:
     phone: str = None
     created: str = None
     password: str = None
+    token: str = None
     
     @property
     def days_with_us(self):

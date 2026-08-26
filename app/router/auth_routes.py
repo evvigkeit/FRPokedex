@@ -1,7 +1,9 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Request, Depends
+from fastapi import APIRouter, Request, Depends, status
 from fastapi.security import OAuth2PasswordRequestForm
+from fastapi.responses import JSONResponse
+from fastapi.encoders import jsonable_encoder
 
 from app import db
 from app.models.user import User
@@ -18,7 +20,10 @@ def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm, Depen
     curr_user = User(username=form_data.username, password=form_data.password)
     auth_result = auth_util.validate_auth(curr_user)
     if not auth_result.success:
-        return auth_result
+        return JSONResponse(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        content=jsonable_encoder(auth_result),
+    )
     
     access_token = security_util.create_access_token(data={"sub": curr_user.username}, expires_delta=security_util.access_token_expires())
     return Token(access_token=access_token, token_type="bearer")
@@ -45,4 +50,9 @@ def reg_post(reg_user: RegForm):
     reg_result = auth_util.validate_reg(new_user)  
     if reg_result.success:
         db.create_user(new_user)
-    return reg_result
+        return reg_result
+    
+    return JSONResponse(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            content=jsonable_encoder(reg_result),
+        )

@@ -37,6 +37,8 @@ async function submitForm(event) {
 
     let data = await response.json();
 
+    console.log(data)
+
     if (response.ok) {
         console.log(obj)
         window.location.href = `/profile/${obj.username}`;

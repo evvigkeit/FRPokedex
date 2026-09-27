@@ -1,10 +1,12 @@
 import psycopg2
 import os
 import math
-from dotenv import load_dotenv
-from app.models.user import User
-from app.models.pokemon import Pokemon
 
+from dotenv import load_dotenv
+from datetime import datetime, timezone
+
+from app.models.user import User, Session
+from app.models.pokemon import Pokemon
 from app.utils.security_util import get_password_hash
 
 
@@ -94,3 +96,40 @@ def get_pokemon_weaknesses(pokemon: Pokemon) -> list:
             result[type] = int(mult)
     pokemon.weaknesses = result
     return pokemon
+
+
+def add_session_data(session_data: Session):
+    cursor.execute("""
+                    INSERT INTO session_data(user_id, session_id, login_at, expires)
+                    VALUES (
+	                    (
+		                    SELECT user_data.user_id FROM user_data
+		                    WHERE user_name = %s
+	                    ), 
+	                    %s, 
+	                    %s, 
+                        %s
+                    )""", (session_data.user, session_data.session_id, session_data.login, session_data.expires))
+    conn.commit()
+    print('Session data has been added successfuly!')
+    
+def check_session_in_db(session_id: str, username: str) -> bool:   # потом user_id нужно в куки доложить
+    cursor.execute("""SELECT * FROM session_data 
+                   WHERE session_id = %s AND user_id = (SELECT user_id FROM user_data WHERE user_name = %s)""", (session_id, username))
+    
+    session_data = cursor.fetchone()
+    if session_data:
+        print(session_data)
+        expires = session_data[3].replace(tzinfo=timezone.utc)
+        if datetime.now(timezone.utc) > expires:
+            delete_session_from_db(session_data[1])
+            return False
+        return True
+    return False
+    
+    
+def delete_session_from_db(session_id: str):
+    cursor.execute("""DELETE FROM session_data WHERE session_id = %s""", (session_id, ))
+    conn.commit()
+    print('Session data has been deleted successfuly!')
+    

@@ -1,3 +1,5 @@
+import time
+
 from typing import Annotated
 
 from fastapi import APIRouter, Request, Depends, status
@@ -7,16 +9,17 @@ from fastapi.encoders import jsonable_encoder
 
 from app import db
 from app.models.user import User
-from app.models.pydantic_models import RegForm, Token
+from app.models.pydantic_models import RegForm, ApiResponse
 from app.utils import auth_util, security_util
 from app.core.templates import templates
+from app.core.oauth2scheme import COOKIE_SESSION_ID_KEY
 
 
 auth = APIRouter()
 
 
-@auth.post("/token")
-def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]) -> Token:
+@auth.post("/session")
+def auth_login_set_cookie(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]) -> ApiResponse:
     curr_user = User(username=form_data.username, password=form_data.password)
     auth_result = auth_util.validate_auth(curr_user)
     if not auth_result.success:
@@ -24,19 +27,20 @@ def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm, Depen
         status_code=status.HTTP_401_UNAUTHORIZED,
         content=jsonable_encoder(auth_result),
     )
+        
+    session_data = security_util.create_session(curr_user.username)
+        
+    response = JSONResponse({"success": True})
+        
+    response.set_cookie(COOKIE_SESSION_ID_KEY, session_data.session_id, expires=session_data.expires, httponly=True)
+    db.add_session_data(session_data)
+    print("COOKIES", session_data)
+    return response
     
-    access_token = security_util.create_access_token(data={"sub": curr_user.username}, expires_delta=security_util.access_token_expires())
-    return Token(access_token=access_token, token_type="bearer")
-
-
+    
 @auth.get("/authorization")
 def login_get(request: Request):
-    return templates.TemplateResponse("authorization/authorization.html",{"request": request})
-
-
-@auth.post("/authorization")
-def login_post(current_user: Annotated[User, Depends(security_util.get_current_user)]):
-    return current_user
+    return templates.TemplateResponse("authorization/authorization.html", {"request": request})
 
 
 @auth.get("/registration")

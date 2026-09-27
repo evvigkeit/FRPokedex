@@ -75,11 +75,3 @@ class RegForm(BaseModel):
 class ApiResponse(BaseModel):
     success : bool = True
     error: str | None = None
-    
-
-class Token(BaseModel):
-    access_token: str 
-    token_type: str
-    
-class TokenData(BaseModel):
-    username: str | None = None

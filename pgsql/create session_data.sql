@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS session_data (
+	user_id INTEGER REFERENCES user_data ON DELETE CASCADE NOT NULL,
+	session_id VARCHAR(150) NOT NULL,
+	login_at TIMESTAMP,
+	expires TIMESTAMP
+);

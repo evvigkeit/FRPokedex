@@ -8,10 +8,19 @@ class User:
     phone: str = None
     created: str = None
     password: str = None
-    token: str = None
     
     @property
     def days_with_us(self):
         return(datetime.now() - self.created).days
+    
+
+@dataclass
+class Session:
+    user: str
+    session_id: str
+    login: datetime
+    expires: datetime
+    
+    
 
     

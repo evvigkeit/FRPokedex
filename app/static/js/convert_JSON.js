@@ -19,7 +19,8 @@ async function submitForm(event) {
     if (event.target.id == "auth_form") {
         request = new Request(event.target.action, {
             method: "POST",
-            body: formData
+            body: formData,
+            credentials: 'include'
         })  
     }
     else {

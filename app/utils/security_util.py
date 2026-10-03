@@ -1,9 +1,10 @@
 from pwdlib import PasswordHash
 from datetime import datetime, timedelta, timezone
-from fastapi import HTTPException, status, Response
+from fastapi import HTTPException, status, Response, Request
+from fastapi.responses import RedirectResponse
 
 from app import db
-from app.models.user import Session
+from app.models.user import Session, User
 from app.core.oauth2scheme import SESSION_EXPIRE_MINUTES, COOKIE_SESSION_ID_KEY
 
 from secrets import token_urlsafe
@@ -27,10 +28,11 @@ def create_session(user_name: str) -> Session:
     return Session(user_name, session_id, login, expires)
 
 
-def check_session(request: str, username: str):
+def check_session(request: Request, username: str):
     session_id = request.cookies.get(COOKIE_SESSION_ID_KEY)
+    print(session_id, 'session_id!!')
     if session_id:
-        session_exists = db.check_session_in_db(session_id, username)
+        session_exists = db.check_session_by_username(session_id, username)
         if session_exists:
             return session_id
     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="not authenticated",)
@@ -41,3 +43,9 @@ def delete_cookie(cookie_key: str):
     response.delete_cookie(cookie_key)
     return {"message": "Successful exit!"}
     
+def get_user_by_session_id(request: Request) -> User:
+    session = request.cookies.get(COOKIE_SESSION_ID_KEY)
+    user = db.get_user_by_session_id(session)
+    if not user:
+        return RedirectResponse("/authorization")
+    return user

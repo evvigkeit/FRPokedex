@@ -2,7 +2,7 @@ import time
 
 from typing import Annotated
 
-from fastapi import APIRouter, Request, Depends, status
+from fastapi import APIRouter, Request, Depends, status, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
@@ -13,28 +13,32 @@ from app.models.pydantic_models import RegForm, ApiResponse
 from app.utils import auth_util, security_util
 from app.core.templates import templates
 from app.core.oauth2scheme import COOKIE_SESSION_ID_KEY
+from app.utils.security_util import check_session
 
 
 auth = APIRouter()
 
 
 @auth.post("/session")
-def auth_login_set_cookie(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]) -> ApiResponse:
+def auth_login_set_cookie(request: Request, form_data: Annotated[OAuth2PasswordRequestForm, Depends()]) -> ApiResponse:
     curr_user = User(username=form_data.username, password=form_data.password)
     auth_result = auth_util.validate_auth(curr_user)
+    
     if not auth_result.success:
         return JSONResponse(
         status_code=status.HTTP_401_UNAUTHORIZED,
         content=jsonable_encoder(auth_result),
     )
-        
-    session_data = security_util.create_session(curr_user.username)
-        
     response = JSONResponse({"success": True})
+    
+    try:
+        check_session(request, curr_user.username)
         
-    response.set_cookie(COOKIE_SESSION_ID_KEY, session_data.session_id, expires=session_data.expires, httponly=True)
-    db.add_session_data(session_data)
-    print("COOKIES", session_data)
+    except HTTPException:
+        session_data = security_util.create_session(curr_user.username)   
+        response.set_cookie(COOKIE_SESSION_ID_KEY, session_data.session_id, expires=session_data.expires, httponly=True)
+        db.add_session_data(session_data)
+        print("COOKIES", session_data)
     return response
     
     

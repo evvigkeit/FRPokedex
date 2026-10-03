@@ -1,14 +1,13 @@
-from pwdlib import PasswordHash
 from datetime import datetime, timedelta, timezone
+from secrets import token_urlsafe
+from pwdlib import PasswordHash
+
 from fastapi import HTTPException, status, Response, Request
 from fastapi.responses import RedirectResponse
 
-from app import db
+from app.db.db_crud.session_tables import check_session_by_username, get_user_by_session_id_from_db
 from app.models.user import Session, User
 from app.core.oauth2scheme import SESSION_EXPIRE_MINUTES, COOKIE_SESSION_ID_KEY
-
-from secrets import token_urlsafe
-
 
 
 password_hash = PasswordHash.recommended()
@@ -32,7 +31,7 @@ def check_session(request: Request, username: str):
     session_id = request.cookies.get(COOKIE_SESSION_ID_KEY)
     print(session_id, 'session_id!!')
     if session_id:
-        session_exists = db.check_session_by_username(session_id, username)
+        session_exists = check_session_by_username(session_id, username)
         if session_exists:
             return session_id
     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="not authenticated",)
@@ -45,7 +44,7 @@ def delete_cookie(cookie_key: str):
     
 def get_user_by_session_id(request: Request) -> User:
     session = request.cookies.get(COOKIE_SESSION_ID_KEY)
-    user = db.get_user_by_session_id(session)
+    user = get_user_by_session_id_from_db(session)
     if not user:
-        return RedirectResponse("/authorization")
+        return None
     return user

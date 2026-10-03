@@ -1,18 +1,17 @@
-import time
-
 from typing import Annotated
 
 from fastapi import APIRouter, Request, Depends, status, HTTPException
+from fastapi.encoders import jsonable_encoder
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.responses import JSONResponse
-from fastapi.encoders import jsonable_encoder
 
-from app import db
+from app.db.db_crud.session_tables import add_session_data
+from app.db.db_crud.user_tables import create_user
+from app.core.templates import templates
+from app.core.oauth2scheme import COOKIE_SESSION_ID_KEY
 from app.models.user import User
 from app.models.pydantic_models import RegForm, ApiResponse
 from app.utils import auth_util, security_util
-from app.core.templates import templates
-from app.core.oauth2scheme import COOKIE_SESSION_ID_KEY
 from app.utils.security_util import check_session
 
 
@@ -37,7 +36,7 @@ def auth_login_set_cookie(request: Request, form_data: Annotated[OAuth2PasswordR
     except HTTPException:
         session_data = security_util.create_session(curr_user.username)   
         response.set_cookie(COOKIE_SESSION_ID_KEY, session_data.session_id, expires=session_data.expires, httponly=True)
-        db.add_session_data(session_data)
+        add_session_data(session_data)
         print("COOKIES", session_data)
     return response
     
@@ -57,7 +56,7 @@ def reg_post(reg_user: RegForm):
     new_user = User(username=reg_user.username, password=reg_user.password, email=reg_user.email, phone=reg_user.phone)
     reg_result = auth_util.validate_reg(new_user)  
     if reg_result.success:
-        db.create_user(new_user)
+        create_user(new_user)
         return reg_result
     
     return JSONResponse(

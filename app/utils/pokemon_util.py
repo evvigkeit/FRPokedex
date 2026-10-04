@@ -1,20 +1,12 @@
-from enum import Enum
+from fastapi import Request
 
-class TypeColor(Enum):
-    Normal = '#acaba9'
-    Fighting = '#e75548'
-    Poison = '#dd5fca'
-    Ground = '#c58324'
-    Flying = '#92a6d8'
-    Bug = '#83aa35'
-    Rock = '#c5a991'
-    Ghost = '#6d83b4'
-    Steel = '#d9d9d9'
-    Fire = '#f3ab49'
-    Water = '#56aeed'
-    Grass = '#a2d063'
-    Electric = '#fbfd5c'
-    Ice = '#bbe9f8'
-    Psychic = '#d4756f'
-    Dragon = '#2f6ebe'
-    Dark = '#6934a0'
+from app.core.oauth2scheme import COOKIE_SESSION_ID_KEY
+from app.db.db_crud.pokemon_tables import insert_into_pokedex
+from app.db.db_crud.session_tables import get_user_by_session_id_from_db
+
+
+def add_pokemon_to_pokedex(request: Request, pokemon_id: int):
+    session_id = request.cookies.get(COOKIE_SESSION_ID_KEY)
+    user = get_user_by_session_id_from_db(session_id)
+    
+    insert_into_pokedex(user.id, pokemon_id)

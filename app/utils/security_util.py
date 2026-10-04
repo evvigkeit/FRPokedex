@@ -3,7 +3,6 @@ from secrets import token_urlsafe
 from pwdlib import PasswordHash
 
 from fastapi import HTTPException, status, Response, Request
-from fastapi.responses import RedirectResponse
 
 from app.db.db_crud.session_tables import check_session_by_username, get_user_by_session_id_from_db
 from app.models.user import Session, User

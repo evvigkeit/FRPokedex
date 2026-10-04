@@ -15,7 +15,11 @@
             <div id=pokemon_card><img id=pokemon_pic src="/static/pics/{{pokemon_info.pic}}"></div>
 
             <div id=description_and_info>
-                <button id=add_to_team>Add to the Pokedex!</button>
+                <form action="/pokedex/add" method="post">
+                    <input type="hidden" name="pokemon_id" value="{{ pokemon_info.id }}">
+                    <button id=add_to_team type=submit>Add to the Pokedex!</button>
+                </form>
+
                 <p id=description style="font:30px;">{{pokemon_info.description}}</p>
 
                 <div id=types_and_info>

@@ -5,7 +5,7 @@ from app.utils.security_util import get_password_hash
 
 def check_user_exist(user: User):
     with get_db_cursor() as cursor:
-        cursor.execute("""SELECT user_name, user_email, user_phone, user_created, user_password 
+        cursor.execute("""SELECT user_name, user_email, user_phone, user_created, user_password, user_id 
                         FROM user_data 
                         WHERE user_name=%s OR user_email=%s OR user_phone=%s;""", (user.username, user.email, user.phone))
         user_from_db = cursor.fetchone()

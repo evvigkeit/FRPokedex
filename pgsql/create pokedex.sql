@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS pokedex (
+	user_id INTEGER REFERENCES user_data ON DELETE CASCADE NOT NULL,
+	pokemon_id INTEGER REFERENCES pokemon_basic_info ON DELETE CASCADE NOT NULL,
+	pokemon_caught TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (user_id, pokemon_id)
+);

@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS pokemon_types (
 	pokemon_id INTEGER REFERENCES pokemon_basic_info ON DELETE CASCADE,
-	type_id INTEGER REFERENCES all_types ON DELETE CASCADE
+	type_id INTEGER REFERENCES all_types ON DELETE CASCADE,
+	PRIMARY KEY (pokemon_id, type_id)
 );
 
 INSERT INTO pokemon_types (pokemon_id, type_id) VALUES

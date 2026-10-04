@@ -42,12 +42,13 @@ def delete_session_from_db(session_id: str):
 
 def get_user_by_session_id_from_db(session_id: str) -> User:
     with get_db_cursor(commit=True) as cursor:
-        cursor.execute("""SELECT user_name, user_email, user_phone, user_created FROM user_data
+        cursor.execute("""SELECT user_name, user_email, user_phone, user_created, user_data.user_id FROM user_data
                             JOIN session_data ON user_data.user_id = session_data.user_id
                             WHERE session_id = %s""", (session_id, ))
         user_from_db = cursor.fetchone()
+        
         if user_from_db:
             session_valid = check_session_by_username(session_id, user_from_db[0])
             if session_valid:
-                return User(*user_from_db)
+                return User(username=user_from_db[0], email=user_from_db[1], phone=user_from_db[2], created=user_from_db[3], id=user_from_db[4])
         return None

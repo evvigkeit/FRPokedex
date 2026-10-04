@@ -27,11 +27,11 @@ def get_pokemon_by_type(pokemon_types: list) -> list:
 def get_pokemon_info(pokemon_name: str) -> Pokemon:
     with get_db_cursor() as cursor:
         cursor.execute("SELECT * FROM pokemon_basic_info WHERE pokemon_name = %s;", (pokemon_name,))
-        pokemon_info = cursor.fetchall()
-        return Pokemon(*pokemon_info[0])
+        pokemon_info = cursor.fetchone()
+        return Pokemon(*pokemon_info)
 
 
-def get_pokemon_types(pokemon: Pokemon) -> list:
+def get_pokemon_types(pokemon: Pokemon) -> Pokemon:
     with get_db_cursor() as cursor:
         cursor.execute("""SELECT type_name FROM pokemon_types
                             JOIN all_types ON pokemon_types.type_id = all_types.type_id
@@ -42,7 +42,7 @@ def get_pokemon_types(pokemon: Pokemon) -> list:
         return pokemon
 
 
-def get_pokemon_weaknesses(pokemon: Pokemon) -> list:
+def get_pokemon_weaknesses(pokemon: Pokemon) -> Pokemon:
     with get_db_cursor() as cursor:
         if not pokemon.types:
             pokemon = get_pokemon_types(pokemon)
@@ -63,3 +63,11 @@ def get_pokemon_weaknesses(pokemon: Pokemon) -> list:
                 result[type] = int(mult)
         pokemon.weaknesses = result
         return pokemon
+    
+    
+def insert_into_pokedex(user_id: int, pokemon_id: int):
+    with get_db_cursor(commit=True) as cursor:
+        cursor.execute("""INSERT INTO pokedex (user_id, pokemon_id)
+                       VALUES (%s, %s);""", (user_id, pokemon_id))
+        
+        print('Pokemon data has been added to the Pokedex successfuly!')

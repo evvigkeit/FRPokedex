@@ -1,7 +1,8 @@
 CREATE TABLE IF NOT EXISTS type_weaknesses (
 	defender_type INTEGER REFERENCES all_types(type_id) ON DELETE CASCADE,
 	attacker_type INTEGER REFERENCES all_types(type_id) ON DELETE CASCADE,
-	multiplier REAL
+	multiplier REAL,
+	PRIMARY KEY (defender_type, attacker_type)
 );
 
 INSERT INTO type_weaknesses (defender_type, attacker_type, multiplier) VALUES

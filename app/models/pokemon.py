@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from app.utils.pokemon_util import TypeColor
+from enum import Enum
+
 
 @dataclass
 class Pokemon:
@@ -22,3 +23,23 @@ class Pokemon:
     @staticmethod
     def property_color(type):
         return TypeColor[type].value
+    
+
+class TypeColor(Enum):
+    Normal = '#acaba9'
+    Fighting = '#e75548'
+    Poison = '#dd5fca'
+    Ground = '#c58324'
+    Flying = '#92a6d8'
+    Bug = '#83aa35'
+    Rock = '#c5a991'
+    Ghost = '#6d83b4'
+    Steel = '#d9d9d9'
+    Fire = '#f3ab49'
+    Water = '#56aeed'
+    Grass = '#a2d063'
+    Electric = '#fbfd5c'
+    Ice = '#bbe9f8'
+    Psychic = '#d4756f'
+    Dragon = '#2f6ebe'
+    Dark = '#6934a0'

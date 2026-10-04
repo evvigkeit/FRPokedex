@@ -3,7 +3,6 @@ h1 {
       font: 35pt sans-serif; 
       font-weight: 900;
 }
-
 #container{
     display: flex;
 }
@@ -25,11 +24,36 @@ h1 {
 #description_and_info {
     margin: 10px 60px;
 }
+#add_to_team{
+    padding: 15px;
+    margin: 0px 0px 50px;
+
+    background: #007060;
+    border: 1px solid #007060;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 18px;
+    color: white;
+}
 #description{
     font: 20pt sans-serif;
     padding: 0px 0px 50px;
     margin: 0px;
     color: #000070;
+}
+#types_and_info{
+    display: flex;
+
+}
+#strengths_and_weeknesses{
+    width: 50%;
+    height: auto;
+}
+#activities{
+    display: flex;
+    width: 100%;
+    height: auto;
+    flex-wrap: wrap;
 }
 #info {
     display: flex;

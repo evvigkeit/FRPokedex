@@ -29,13 +29,13 @@
     height: 25px;
     margin-left: 20px;
 }
-#search_btn {
+.search_btn {
     height: 28px;
     width: 28px;
     border-width: thin;
     border-color: #000070;
 }
-#pokemon_pic {
+.pokemon_pic {
     height: 150px;
     width: auto;
 }
@@ -48,7 +48,7 @@
     width: 95%;
     height: auto;
 }
-#pokemon_card {
+.pokemon_card {
     display: flex;
     justify-self: start;
     height: 180px;
@@ -59,7 +59,7 @@
     margin: 10px 20px;
     background-color: #eaeaff;
 }
-#pokemon_name {
+.pokemon_name {
     margin: 0px;
     padding: 0px;
     justify-self: center;

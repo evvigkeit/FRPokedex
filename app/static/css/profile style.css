@@ -4,11 +4,10 @@
 }
 body{
     font-family: "Rubik", sans-serif;
+    background-color: #d2d2f9;
 }
 .main {
-    width: 100%;
-    height: 100vh;
-    background-color: #d2d2f9;    
+    width: 100%;  
     position: relative;
     top: 64px;
 }

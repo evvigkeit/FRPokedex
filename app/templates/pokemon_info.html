@@ -3,7 +3,6 @@
 {% block title %}{{pokemon_info.name}}{% endblock title %}
     
 {% block styles %}
-
     <link rel="stylesheet" href="/static/css/pokemon_info style.css">
 {% endblock styles %}
 
@@ -11,36 +10,46 @@
     <main class="main">
         <a style="text-decoration: none; display: inline;" href="../pokemons"><p id=return>← <span style="font: 15pt sans-serif; font-weight: 300;">Back to Pokemons</span></p></a>
         <h1>{{pokemon_info.name}}</h1>
+
         <div id=container>
             <div id=pokemon_card><img id=pokemon_pic src="/static/pics/{{pokemon_info.pic}}"></div>
 
             <div id=description_and_info>
+                <button id=add_to_team>Add to the Pokedex!</button>
                 <p id=description style="font:30px;">{{pokemon_info.description}}</p>
 
-                <p id=type>Type:</p>
-                <div id=activities style="display: flex;">
-                    {% for type in pokemon_info.types %}
-                         <div id=type_box style="background-color: {{pokemon_info.property_color(type)}}">
-                            <p id=type_info>{{type}}</p>
+                <div id=types_and_info>
+
+                    <div id=strengths_and_weeknesses>
+                        <p id=type>Type:</p>
+                        <div id=activities>
+                            {% for type in pokemon_info.types %}
+                                <div id=type_box style="background-color: {{pokemon_info.property_color(type)}}">
+                                    <p id=type_info>{{type}}</p>
+                                </div>
+                            {% endfor %}
                         </div>
-                    {% endfor %}
+
+                        <p id=type>Weeknesses:</p>
+                        <div id=activities>
+                            {% for type, mult in pokemon_info.weaknesses.items() %}
+                                <div id=type_box style="background-color: {{pokemon_info.property_color(type)}}">
+                                    <p id=type_info>{{type}} x{{mult}}</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+                        
+                    <div id=info>
+                        <p id=p_info>Height:<br><b>{{pokemon_info.height}}</b></p>
+                        <p id=p_info>Weight:<br><b>{{pokemon_info.weight}}</b></p>
+                        <p id=p_info>Category:<br><b>{{pokemon_info.category}}</b></p>
+                        <p id=p_info>Gender:<br><b>{{pokemon_info.gender}}</b></p>
+                    </div>
+
                 </div>
 
-                <p id=type>Weeknesses:</p>
-                <div id=activities style="display: flex;">
-                    {% for type, mult in pokemon_info.weaknesses.items() %}
-                        <div id=type_box style="background-color: {{pokemon_info.property_color(type)}}">
-                            <p id=type_info>{{type}} x{{mult}}</p>
-                        </div>
-                    {% endfor %}
-                </div>
-                    
-                <div id=info>
-                    <p id=p_info>Height:<br><b>{{pokemon_info.height}}</b></p>
-                    <p id=p_info>Weight:<br><b>{{pokemon_info.weight}}</b></p>
-                    <p id=p_info>Category:<br><b>{{pokemon_info.category}}</b></p>
-                    <p id=p_info>Gender:<br><b>{{pokemon_info.gender}}</b></p>
-                </div>
             </div>
         </div>
     </main>

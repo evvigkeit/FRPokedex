@@ -17,22 +17,24 @@
                     {% endfor %}
                 </select>
                 
-                <input id=search_btn type="submit" value="🔍">
+                <input class=search_btn type="submit" value="🔍">
             </form>
 
             <form id=search_form>
                 <input class="search_utils" id=search_field type="text" placeholder="Pokemon" name="pokemon_name">
-                <input id=search_btn type="submit" value="🔍">
+                <input class=search_btn type="submit" value="🔍">
             </form>
         </div>
 
         <div id=container>
             {% for pokemon, pic in pokemons %}
-                <div id=pokemon_card>
-                    <a href="../pokemons/{{pokemon}}"><img id=pokemon_pic src="/static/pics/{{pic}}"></a>
-                    <p id=pokemon_name>{{pokemon}}</p>
+                <div class=pokemon_card>
+                    <a href="../pokemons/{{pokemon}}"><img class=pokemon_pic src="/static/pics/{{pic}}"></a>
+                    <p class=pokemon_name>{{pokemon}}</p>
                 </div>
             {% endfor %}
         </div>
     </main>
 {% endblock content %}
+
+{% block scripts %}<script src="/static/js/pokemons_utils.js"></script>{% endblock scripts %}

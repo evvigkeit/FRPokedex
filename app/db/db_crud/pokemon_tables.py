@@ -1,4 +1,5 @@
 import math
+from datetime import datetime
 
 from app.db.connection import get_db_cursor
 from app.models.pokemon import Pokemon
@@ -71,3 +72,26 @@ def insert_into_pokedex(user_id: int, pokemon_id: int):
                        VALUES (%s, %s);""", (user_id, pokemon_id))
         
         print('Pokemon data has been added to the Pokedex successfuly!')
+        
+        
+def get_from_pokedex(user_id: int) -> list:
+    with get_db_cursor() as cursor:
+        cursor.execute("""SELECT pokemon_name, file_name FROM pokemon_basic_info
+                    JOIN pokedex ON pokedex.pokemon_id = pokemon_basic_info.pokemon_id
+                    WHERE user_id = %s;""", (user_id, ))
+        
+        pokemon = cursor.fetchall()
+        return pokemon
+    
+    
+def check_in_pokedex(user_id: int, pokemon_id: str) -> datetime:
+    with get_db_cursor() as cursor:
+        cursor.execute("SELECT pokemon_caught FROM pokedex WHERE user_id = %s AND pokemon_id = %s;", (user_id, pokemon_id))
+        caught_at = cursor.fetchone()
+        
+        if caught_at:
+            caught_at = datetime.strftime(caught_at[0], "%d.%m.%Y")
+            return caught_at
+        return None
+        
+        

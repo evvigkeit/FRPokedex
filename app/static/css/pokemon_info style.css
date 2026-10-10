@@ -35,6 +35,19 @@ h1 {
     font-size: 18px;
     color: white;
 }
+#caught_at{
+    padding: 15px;
+    margin: 0px 0px 50px;
+    width: 21vw;
+    text-align: center;
+
+    background: white;
+    border: 1px solid #007060;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 18px;
+    color: #007060;
+}
 #description{
     font: 20pt sans-serif;
     padding: 0px 0px 50px;

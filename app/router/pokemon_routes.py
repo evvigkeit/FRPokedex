@@ -1,10 +1,11 @@
-from fastapi import APIRouter, Request, Query, Form
+from fastapi import APIRouter, Request, Query, Form, Depends
 from fastapi.responses import JSONResponse, RedirectResponse
 from typing import Annotated
 
 from app.core.templates import templates
-from app.db.db_crud.pokemon_tables import get_pokemon_by_type, get_pokemons, get_pokemon_info, get_pokemon_weaknesses
-from app.utils.pokemon_util import add_pokemon_to_pokedex
+from app.db.db_crud.pokemon_tables import get_pokemon_by_type, get_pokemons, get_pokemon_info, get_pokemon_weaknesses, insert_into_pokedex, check_in_pokedex
+from app.models.user import User
+from app.utils.security_util import get_user_by_session_id 
 
 
 pokemon = APIRouter()
@@ -25,15 +26,17 @@ def filter_pokemons_get(request: Request, pokemon_name: Annotated[str, Query()] 
 
 
 @pokemon.get("/pokemons/{pokemon_name}")
-def pokemon_page_get(request: Request, pokemon_name):
+def pokemon_page_get(request: Request, pokemon_name, user: User = Depends(get_user_by_session_id)):
     pokemon_info = get_pokemon_weaknesses(get_pokemon_info(pokemon_name))
-    print(pokemon_info)
-    return templates.TemplateResponse("pokemon_info.html",{"request": request, "pokemon_info": pokemon_info})
+    
+    caught_at = check_in_pokedex(user.id, pokemon_info.id)
+    
+    return templates.TemplateResponse("pokemon_info.html",{"request": request, "pokemon_info": pokemon_info, "caught_at": caught_at})
 
 
 @pokemon.post("/pokedex/add")
-def add_pokemon_to_team(request: Request, pokemon_id: int = Form()):
-    add_pokemon_to_pokedex(request, pokemon_id)
+def add_pokemon_to_team(request: Request, pokemon_id: int = Form(), user: User = Depends(get_user_by_session_id)):
+    insert_into_pokedex(user.id, pokemon_id)
     
     referer = request.headers.get("referer")
     

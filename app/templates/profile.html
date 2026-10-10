@@ -2,19 +2,29 @@
 
 {% block title %}Profile{% endblock title %}
     
-{% block styles %}{% endblock styles %}
+{% block styles %}<link rel="stylesheet" href="/static/css/profile style.css">{% endblock styles %}
 
 {% block content %}
     <main class="main">
-        <h1>Hi, {{username}}!</h1>
+        <h1>Hi, {{user.username}}!</h1>
 
         <h3>---Account Info---</h3>
         <div id=account>
-            <p>Email: <b style="color: #007060">{{email}}</b></p>
-            <p>Phone: <b style="color: #007060">{{phone}}</b></p>
-            <p>The FRPokedex user for: <b style="color: #007060">{{created}}</b> days!</p>
+            <p>Email: <b style="color: #007060">{{user.email}}</b></p>
+            <p>Phone: <b style="color: #007060">{{user.phone}}</b></p>
+            <p>The FRPokedex user for: <b style="color: #007060">{{user.days_with_us}}</b> days!</p>
         </div>
+
         <h3>---Pokedex---</h3>
+        <div id=container>
+            {% for pokemon, pic in pokedex %}
+                <div class=pokemon_card>
+                    <a href="../pokemons/{{pokemon}}"><img class=pokemon_pic src="/static/pics/{{pic}}"></a>
+                    <p class=pokemon_name>{{pokemon}}</p>
+                </div>
+            {% endfor %}
+        </div>
+
         <h3>---Main Team---</h3>
     </main>
 {% endblock content %}

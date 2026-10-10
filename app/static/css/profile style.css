@@ -11,7 +11,7 @@
     display: flex;
     justify-self: start;
     height: 180px;
-    width: auto;
+    width: 185px;
     border-style: solid;
     border-color: #000070;
     flex-wrap: wrap;
@@ -30,4 +30,17 @@
 .pokemon_pic {
     height: 150px;
     width: auto;
+}
+#delete_from_pokedex{
+    width: 35px;
+    height: auto;
+    
+    background-color: rgb(190, 0, 0);
+    border: 1px solid rgb(190, 0, 0);
+    border-radius: 50px;
+}
+#trash_can{
+    width: 65%;
+    object-fit: contain;
+    height: 100%
 }

@@ -17,14 +17,15 @@
             <div id=description_and_info>
 
                 {% if caught_at %}
-                    <form action="/pokedex/delete" method="post">
+                    <form action="/pokedex/delete" method="post" id=delete_from_pokedex_form>
                         <input type="hidden" name="pokemon_id" value="{{ pokemon_info.id }}">
                         <p id=caught_at>In your Pokedex since {{ caught_at }} !</p>
+                        <button id=delete_from_pokedex type="submit"><img id=trash_can src="/static/pics/trash_can.png"></button>
                     </form>
                 {% else %}
                     <form action="/pokedex/add" method="post">
                         <input type="hidden" name="pokemon_id" value="{{ pokemon_info.id }}">
-                        <button id=add_to_team type=submit>Add to the Pokedex!</button>
+                        <button id=add_to_pokedex type="submit">Add to the Pokedex!</button>
                     </form>
                 {% endif %}
 

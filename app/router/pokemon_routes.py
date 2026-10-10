@@ -3,7 +3,8 @@ from fastapi.responses import JSONResponse, RedirectResponse
 from typing import Annotated
 
 from app.core.templates import templates
-from app.db.db_crud.pokemon_tables import get_pokemon_by_type, get_pokemons, get_pokemon_info, get_pokemon_weaknesses, insert_into_pokedex, check_in_pokedex
+from app.db.db_crud.pokemon_tables import (get_pokemon_by_type, get_pokemons, get_pokemon_info, get_pokemon_weaknesses, insert_into_pokedex, check_in_pokedex, 
+                                            delete_from_pokedex)
 from app.models.user import User
 from app.utils.security_util import get_user_by_session_id 
 
@@ -35,7 +36,7 @@ def pokemon_page_get(request: Request, pokemon_name, user: User = Depends(get_us
 
 
 @pokemon.post("/pokedex/add")
-def add_pokemon_to_team(request: Request, pokemon_id: int = Form(), user: User = Depends(get_user_by_session_id)):
+def add_pokemon_to_pokedex(request: Request, pokemon_id: int = Form(), user: User = Depends(get_user_by_session_id)):
     insert_into_pokedex(user.id, pokemon_id)
     
     referer = request.headers.get("referer")
@@ -43,3 +44,14 @@ def add_pokemon_to_team(request: Request, pokemon_id: int = Form(), user: User =
     if referer:
         return RedirectResponse(url=referer, status_code=303)
     return RedirectResponse(url="/", status_code=303)
+
+
+@pokemon.post("/pokedex/delete")
+def delete_pokemon_from_pokedex(request: Request, pokemon_id: int = Form(), user: User = Depends(get_user_by_session_id)):
+    delete_from_pokedex(user.id, pokemon_id)
+    
+    referer = request.headers.get("referer")
+    
+    if referer:
+        return RedirectResponse(url=referer, status_code=303)
+    return RedirectResponse("/", status_code=303)

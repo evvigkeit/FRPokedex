@@ -28,7 +28,6 @@ def create_session(user_name: str) -> Session:
 
 def check_session(request: Request, username: str):
     session_id = request.cookies.get(COOKIE_SESSION_ID_KEY)
-    print(session_id, 'session_id!!')
     if session_id:
         session_exists = check_session_by_username(session_id, username)
         if session_exists:

@@ -24,7 +24,7 @@ h1 {
 #description_and_info {
     margin: 10px 60px;
 }
-#add_to_team{
+#add_to_pokedex{
     padding: 15px;
     margin: 0px 0px 50px;
 
@@ -37,9 +37,10 @@ h1 {
 }
 #caught_at{
     padding: 15px;
-    margin: 0px 0px 50px;
+    margin: 0px 10px 50px;
     width: 21vw;
     text-align: center;
+    display: inline-block;
 
     background: white;
     border: 1px solid #007060;
@@ -47,6 +48,24 @@ h1 {
     font-weight: 700;
     font-size: 18px;
     color: #007060;
+}
+#delete_from_pokedex_form{
+    display: flex; 
+    align-items: stretch; 
+}
+#delete_from_pokedex{
+    margin: 0px 0px 50px;
+    width: 5vw;
+    height: auto;
+    
+    background-color: #007060;
+    border: 1px solid #007060;
+    border-radius: 50px;
+}
+#trash_can{
+    width: 2vw;
+    object-fit: contain;
+    height: 100%
 }
 #description{
     font: 20pt sans-serif;

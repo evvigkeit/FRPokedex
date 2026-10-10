@@ -37,7 +37,6 @@ def auth_login_set_cookie(request: Request, form_data: Annotated[OAuth2PasswordR
         session_data = security_util.create_session(curr_user.username)   
         response.set_cookie(COOKIE_SESSION_ID_KEY, session_data.session_id, expires=session_data.expires, httponly=True)
         add_session_data(session_data)
-        print("COOKIES", session_data)
     return response
     
     

@@ -16,7 +16,6 @@ user = APIRouter()
 def profile_get(request: Request, user: User = Depends(get_user_by_session_id)):
     if user:
         pokedex = get_from_pokedex(user.id)
-        print(pokedex, "POKEDEX")
         return templates.TemplateResponse("profile.html", {"request": request, "user": user, "pokedex": pokedex})
     return RedirectResponse("/authorization")
 

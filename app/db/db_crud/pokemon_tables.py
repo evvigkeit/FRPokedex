@@ -74,13 +74,20 @@ def insert_into_pokedex(user_id: int, pokemon_id: int):
         print('Pokemon data has been added to the Pokedex successfuly!')
         
         
-def get_from_pokedex(user_id: int) -> list:
+def delete_from_pokedex(user_id: int, pokemon_id: int):
+    with get_db_cursor(commit=True) as cursor:
+        cursor.execute("DELETE FROM pokedex WHERE user_id = %s AND pokemon_id = %s", (user_id, pokemon_id))
+        print('Pokemon data has been deleted successfuly from Pokedex!')
+        
+        
+def get_from_pokedex(user_id: int) -> list[Pokemon]:
     with get_db_cursor() as cursor:
-        cursor.execute("""SELECT pokemon_name, file_name FROM pokemon_basic_info
+        cursor.execute("""SELECT pokedex.pokemon_id, pokemon_name, file_name FROM pokemon_basic_info
                     JOIN pokedex ON pokedex.pokemon_id = pokemon_basic_info.pokemon_id
                     WHERE user_id = %s;""", (user_id, ))
         
         pokemon = cursor.fetchall()
+        pokemon = list(map(lambda x: Pokemon(id=x[0], name=x[1], pic=x[2]), pokemon))
         return pokemon
     
     

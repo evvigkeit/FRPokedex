@@ -17,10 +17,16 @@
 
         <h3>---Pokedex---</h3>
         <div id=container>
-            {% for pokemon, pic in pokedex %}
+            {% for pokemon in pokedex %}
                 <div class=pokemon_card>
-                    <a href="../pokemons/{{pokemon}}"><img class=pokemon_pic src="/static/pics/{{pic}}"></a>
-                    <p class=pokemon_name>{{pokemon}}</p>
+                    <a href="../pokemons/{{pokemon.name}}">
+                        <img class=pokemon_pic src="/static/pics/{{pokemon.pic}}">
+                    </a>
+                    <form action="/pokedex/delete" method="post" id=delete_from_pokedex_form>
+                            <input type="hidden" name="pokemon_id" value="{{ pokemon.id }}">
+                            <button id=delete_from_pokedex type="submit"><img id=trash_can src="/static/pics/trash_can.png"></button>
+                    </form>
+                    <p class=pokemon_name>{{pokemon.name}}</p>
                 </div>
             {% endfor %}
         </div>
